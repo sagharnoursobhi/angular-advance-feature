@@ -1,0 +1,8 @@
+<h1>like works!</h1>
+<div class="like-container border border-1 rounded border-dark p-3 mb-3 d-flex justify-content-start align-items-start">
+  <i class="bi bi-heart-fill heart-icon"
+  [style.color]="isActive ? 'deeppink' : 'lightgray'"
+  (click)="onClick()"
+  ></i>
+  <p class="counter ms-2">{{ likesCount }}</p>
+</div>

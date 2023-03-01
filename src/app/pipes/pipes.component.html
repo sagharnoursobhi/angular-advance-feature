@@ -1,0 +1,13 @@
+<h1>pipes works!</h1>
+<div>
+  <h3>{{ course.title | uppercase }}</h3>
+  <h3>{{ course.students | number }}</h3>
+  <!--to have more control over number of integer and desimal point digits
+    we supply an argument here'first number is the number of integer digits.then we supply the max and min number of digits after the decimal point '
+  -->
+  <h3>{{ course.rating | number:'1.2-2' }}</h3>
+  <h3>{{ course.price | currency }}</h3><!--by default we get use dollars we can change this to australian dollar-->
+  <h3>{{ course.price | currency:'AUD': true: '3.2-2' }}</h3><!--to indicate that I want to show the currency symbol-->
+  <h3>{{ course.releaseDate | date:'shortDate' }}</h3><!--this format is not readable for humans so we apply the date pipe and we can format it as a short date-->
+  <h3 class="mt-3">{{ text | summary:10 }}</h3><!--We set an argument. We set the number of characters to 10-->
+</div>

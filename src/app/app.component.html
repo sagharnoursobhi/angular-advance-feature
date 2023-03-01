@@ -1,0 +1,28 @@
+
+<div class="container">
+  <h1>{{title}}</h1>
+  <favorite [is-favorite]="data.isFavorite" (change)="onFavoriteChanged($event)"></favorite>
+  <courses></courses>
+  <Test></Test>
+  <authors></authors>
+  <course></course>
+  <app-country-capital></app-country-capital>
+  <review></review>
+  <country></country>
+  <app-two-way-binding></app-two-way-binding>
+  <app-pipes></app-pipes>
+  <bootstrap-panel>
+    <ng-container class="header">Here is the header</ng-container>
+    <ng-container class="body">Here is the body</ng-container>
+  </bootstrap-panel>
+  <like [isActive]="tweet.isLiked" [likesCount]="tweet.likesCount"></like>
+  <directives></directives>
+  <contact-form></contact-form>
+  <assignment5 [btnTitle]="'Shipping Details'" [content]="'Shipping Details Content'"></assignment5>
+  <assignment5 [btnTitle]="'Billing Details'" [content]="'Billing Details Content'"></assignment5>
+  <assignment6></assignment6>
+  <signup-form></signup-form>
+  <new-course-form></new-course-form>
+  <assignment8></assignment8>
+  <posts></posts>
+</div>

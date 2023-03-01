@@ -1,0 +1,5 @@
+<div (click)="onClickDiv()" class="mt-4 bg-danger">
+  <button (click)="onClickButton($event)" class="btn btn-success ms-2">Add Course</button>
+</div>
+<input class="ms-3 mt-3" (keyup.enter)="onkeyUpHandler1($event)" />
+<input type="text" class="ms-3 mt-3" #email (keyup.enter)="onkeyUpHandler2(email.value)">

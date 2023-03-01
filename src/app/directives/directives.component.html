@@ -1,0 +1,51 @@
+<div class="mt-3" *ngIf="listOfNumbers.length > 0">List of Numbers</div>
+<div *ngIf="listOfNumbers.length === 0">The list is empty </div>
+<div class="mt-3" *ngIf="listOfNumbers.length > 0 else noNumbers">List of Numbers</div>
+<ng-template #noNumbers>*ngIf="listOfNumbers.length === 0">The list is empty </ng-template>
+<div class="mt-3" *ngIf="listOfNumbers.length > 0 then ngCourses else noNumbers">List of Numbers</div>
+<ng-template #ngCourses>List of Numbers</ng-template>
+<ng-template #noNumbers>The list is empty</ng-template>
+<div class="mt-3" [hidden]="listOfNumbers.length === 0">List of Numbers</div>
+<div [hidden]="listOfNumbers.length > 0">The list is empty </div>
+<br>
+<ul class="nav nav-tabs">
+  <li class="nav-item"><a (click)="viewMode = 'map'" class="nav-link" [class.active]="viewMode === 'map'">Map View</a></li>
+  <li class="nav-item"><a (click)="viewMode = 'list'" class="nav-link" [class.active]="viewMode === 'list'">List View</a></li>
+</ul>
+<div [ngSwitch]="viewMode" class="mb-5">
+  <div *ngSwitchCase="'map'">Map View Content</div>
+  <div *ngSwitchCase="'list'">List View Content</div>
+  <div *ngSwitchDefault>Otherwise</div>
+</div>
+<button (click)="onAdd()">Click</button>
+<ul class="mt-3" *ngFor="let course of listOfCourses; index as i">
+  <li>{{i}}: {{course.course}} <span [style.cursor]="'pointer'" (click)="removeItem(course)">x</span></li>
+</ul>
+<ul class="mt-3" *ngFor="let number of numbers; even as isEven">
+  <li>{{ number }} <span *ngIf="isEven">EVEN</span></li>
+</ul>
+<button (click)="loadFromServer()">Load</button>
+<ul class="mt-3">
+  <li *ngFor="let course of listOfCoursesFromServer; trackBy: trackCourse">{{ course.course }}</li>
+</ul>
+<h3 class="mt-3"
+[ngClass]="{
+  'red-color': isSelected,
+  'blue-color': !isSelected
+}"
+(click)="this.isSelected = !this.isSelected"
+> This is how we use ngClass instead of class binding</h3>
+<button class="mt-3"
+[ngStyle]="{
+  'backgroundColor': isSelected ? 'red' : 'green',
+  'borderColor': isSelected ? 'violet' : 'orange'
+}"
+(click)="this.isSelected = !this.isSelected"
+>ngStyle</button>
+<h3 class="mt-3">
+  {{ task.assignee.name }}
+</h3>
+<input type="text" class="mt-3 mb-3 form-control" appInputFormat [format]="'lowercase'"/>
+<input type="text" class="mt-3 mb-3 form-control" appInputFormat [format]="'uppercase'"/>
+<!-- <input type="text" class="mt-3 mb-3 form-control" [appInputFormat]="'uppercase'" />
+ -->

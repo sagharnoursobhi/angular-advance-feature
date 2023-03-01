@@ -1,0 +1,6 @@
+<h2 [class.active]="isActive">{{ authors.length }} Authors</h2>
+<ul>
+  <li class="test" *ngFor="let author of authors">{{ author }}</li>
+</ul>
+<h2 [style.color]="isActive ? 'purple' : 'red'">Style Binding</h2>
+<h2 [class]=" isActive ? 'test' : 'test2' " class="yellow-background">Testing classes</h2>

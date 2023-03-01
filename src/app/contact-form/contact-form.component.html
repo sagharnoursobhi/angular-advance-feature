@@ -1,0 +1,75 @@
+<form
+  action=""
+  class="mt-5 mb-3 border border-1 border-secondary rounded p-3"
+  #f="ngForm"
+  (ngSubmit)="submit(f)"
+>
+  <div ngModelGroup="contact" #contact="ngModelGroup" (change)="log(contact)">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input
+        ngModel
+        name="firstName"
+        id="firstName"
+        type="text"
+        class="form-control"
+        #firstName="ngModel"
+        (change)="log(firstName)"
+        required
+        minlength="3"
+        maxlength="10"
+        pattern="banana"
+      >
+      <p>{{firstName.value}}</p>
+    </div>
+    <div class="alert alert-danger mt-3 mb-3"
+      *ngIf="firstName.touched && firstName.invalid"
+      [class.d-none]="!firstName.errors?.['required'] && !firstName.errors?.['minlength']
+      && !firstName.errors?.['maxlength'] && !firstName.errors?.['pattern']"
+    >
+      <div
+        *ngIf="firstName.errors?.['required']"
+      >First Name is required.</div>
+      <div
+        *ngIf="firstName.errors?.['minlength']"
+      >First Name must be minimum {{ firstName.errors?.['minlength'].requiredLength }} characters</div>
+      <div
+        *ngIf="firstName.errors?.['maxlength']"
+      >First Name must be maximum {{ firstName.errors?.['maxlength'].requiredLength }} characters</div>
+      <div
+        *ngIf="firstName.errors?.['pattern']"
+      >First Name doesn't match the pattern.</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="comment">Comment</label>
+    <textarea
+      ngModel
+      name="comment"
+      #comment="ngModel"
+      (change)="logComment(comment)"
+      id="comment"
+      cols="30"
+      rows="10"
+      class="form-control"
+    ></textarea>
+  </div>
+  <div class="form-check mt-3">
+    <label for="isSubscribed" class="form-check-label">Subscribe to the mailing list</label>
+    <input id="isSubscribed" name="isSubscribed" class="form-check-input" type="checkbox" #isSubscribed="ngModel" ngModel (change)="log(isSubscribed)">
+  </div>
+  <div class="form-group">
+    <label for="contactMethod" class="mb-2">Contact Method</label>
+    <select multiple name="contactMethod" id="contactMethod" class="form-control" ngModel #contactMethod="ngModel">
+      <option *ngFor="let contactMethod of contactMethods" [value]="contactMethod.id">{{ contactMethod.name }}</option>
+    </select>
+  </div>
+  <div class="radio mt-3" *ngFor="let item of contactMethods">
+    <label for="contactMethodRadio">
+      <input type="radio" name="contactMethodRadio" id="contactMethodRadio" ngModel #contactMethodRadio="ngModel" [value]="item.id">
+      {{ item.name }}
+    </label>
+  </div>
+  <p class="mt-2">{{ f.value | json }}</p>
+  <button class="btn btn-primary mt-2" [disabled]="f.invalid">Submit</button>
+</form>

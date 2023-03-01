@@ -1,0 +1,11 @@
+.fav-container {
+  width: 400px;
+  height: 200px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  margin: 20px;
+}
+
+.star-style {
+  color: red;
+}

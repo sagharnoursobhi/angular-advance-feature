@@ -1,0 +1,79 @@
+<form
+ class="mt-5 mb-5 border rounded bg-light p-3"
+ [formGroup]="form"
+ (ngSubmit)="changePassword(form)"
+>
+  <p>chapter 8 - Assignment</p>
+  <div class="form-group mt-2">
+    <label for="oldPass">Old Password</label>
+    <input
+      id="oldPass"
+      type="password"
+      class="form-control"
+      formControlName="oldPass"
+      [type]="oldPassIsDisplayed ? 'text' : 'password'"
+    >
+    <i
+      class="bi"
+      [ngClass]="{
+        'bi-eye-fill': oldPassIsDisplayed,
+        'bi-eye-slash': !oldPassIsDisplayed
+      }"
+      [style.fontSize]="'20px'"
+      (click)="oldPassIsDisplayed = !oldPassIsDisplayed"
+    ></i>
+    <div class="alert alert-danger mt-2" *ngIf="oldPass?.invalid && oldPass?.touched">
+      <div *ngIf="oldPass?.errors?.['invalidOldPassword']">Old Passworld is invalid</div>
+      <div *ngIf="oldPass?.errors?.['required']">Old Password is required</div>
+    </div>
+  </div>
+  <div class="form-group mt-2">
+    <label for="newPass">New Password</label>
+    <input
+      id="newPass"
+      [type]="newPassIsDisplayed ? 'text' : 'password'"
+      class="form-control"
+      formControlName="newPass"
+      (change)="changeNewPass(newPass)"
+    >
+    <i
+      class="bi"
+      [ngClass]="{
+        'bi-eye-fill': newPassIsDisplayed,
+        'bi-eye-slash': !newPassIsDisplayed
+      }"
+      [style.fontSize]="'20px'"
+      (click)="newPassIsDisplayed = !newPassIsDisplayed"
+    ></i>
+    <div class="alert alert-danger mt-2" *ngIf="newPass?.touched && newPass?.invalid">
+      <div *ngIf="newPass?.errors?.['required']">New Password is required.</div>
+    </div>
+  </div>
+  <div class="form-group mt-2">
+    <label for="confirmPass">Confirm Password</label>
+    <input
+      id="confirmPass"
+      type="password"
+      class="form-control"
+      formControlName="confirmPass"
+      (change)="changeConfirmPass(confirmPass)"
+      [type]="confirmPassIsDisplayed ? 'text' : 'password'"
+    >
+    <i
+      class="bi"
+      [ngClass]="{
+        'bi-eye-fill': confirmPassIsDisplayed,
+        'bi-eye-slash': !confirmPassIsDisplayed
+      }"
+      [style.fontSize]="'20px'"
+      (click)="confirmPassIsDisplayed = !confirmPassIsDisplayed"
+    ></i>
+    <div class="alert alert-danger mt-2" *ngIf="confirmPass?.touched && confirmPass?.invalid">
+      <div *ngIf="confirmPass?.errors?.['required']">Confirm Password is required.</div>
+    </div>
+    <div class="alert alert-danger mt-2" *ngIf="confirmPass?.valid && confirmPass?.touched && form?.errors?.['passShouldMatch']">
+      Confirm Password doesn't match New Password.
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary mt-2">Change Password</button>
+</form>
