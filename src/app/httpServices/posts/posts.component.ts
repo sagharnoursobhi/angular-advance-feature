@@ -4,7 +4,6 @@ import { PostService } from '../../services/post.service';
 import { AppError } from '../../common/app-error';
 import { NotFoundError } from '../../common/not-found-error';
 import { BadInputError } from '../../common/bad-input-error';
-import { NotGetError } from '../../common/not-get-error';
 
 type GetDataType = {
 	userId?: number,
@@ -26,25 +25,13 @@ export class PostsComponent implements OnInit {
 	text = <DataType>{} */
 
 
-	constructor(private service: PostService) {
-
-	}
+	constructor(private service: PostService) {}
 
 	ngOnInit(): void {
-		this.service.getPost()
+		this.service.getAll()
 			.subscribe(
 				{
-					next: (response: GetDataType[] | any): void => {
-						this.posts = response;
-					},
-					error: (err: AppError) => {
-						if(err instanceof NotGetError) {
-              console.log('Data is not fetched');
-            } else
-						//we need to annotate then there is an intelliSence and type compiling and then we have access to all the
-						//response class memebers
-            console.log('An uxpected error has occured')
-					}
+					next: (posts: GetDataType[] | any): void => this.posts = posts
 				}
 			)
 	}
@@ -54,22 +41,24 @@ export class PostsComponent implements OnInit {
 		let post: any = {
 			title: input.value,
 		}
+    this.posts.splice(0, 0, post);
 
 		input.value = '';
 
-		this.service.createPost(post)
+		this.service.create(post)
 				.subscribe({
-					next: (response: any ) => {
-						console.log(response.id)
-						console.log(post);
-						this.posts.splice(0, 0, post);
+					next: (newPost: any ) => {
+            post.id = newPost.id;
+            console.log(post)
 					},
 					error: (err: AppError) => {
+            this.posts.splice(0,1);
+
 						if(err instanceof BadInputError) {
-              console.log('this post has already been created');
+              console.log(err.originalError);
               //this.form.setError(err);
             } else {
-              console.log('An unexpected error occured!');
+              throw err;
             }
 					}
 				})
@@ -77,15 +66,10 @@ export class PostsComponent implements OnInit {
 	}
 
 	updatePost(post: any) {
-
-		this.service.updatePost(post)
+		this.service.update(post)
 			.subscribe({
 				next: (response: any) => {
 					console.log(response)
-				},
-				error: (err) => {
-					console.log('An unexpected method occured!');
-					console.log(err);
 				}
 			});
 
@@ -96,24 +80,28 @@ export class PostsComponent implements OnInit {
 	}
 
 	deletePost(post: any) {
-		this.service.deletePost(post.id)
+    let index = this.posts.indexOf(post);
+    this.posts.splice(index, 1);
+
+		this.service.delete(post.id)
 			.subscribe({
-				next: (response: any) => {
-          console.log(response)
-					let index = this.posts.indexOf(post);
-					this.posts.splice(index, 1);
-				},
+				/* next: () => {//We don't get any object from the server so we don't need response
+				}, */
+        next: ()=>null,
 				error: (err: AppError) => {
+          this.posts.splice(index,0, post);
+
+          console.log(err, 'before line 93');
 					if(err instanceof NotFoundError) {
 						alert('This post has already been deleted.');
 					} else {
-						alert('An unexpected error has occured.');
+            throw err;
 					}
-					//we need to annotate then there is an intelliSence and type compiling and then we have access to all the
-					//response class memebers
-          //when we are done with appError object instead of working with response object we are going to work with appError
-          //or one of its derivatives
 				}
 			})
+    //we need to annotate then there is an intelliSence and type compiling and then we have access to all the
+    //response class memebers
+    //when we are done with appError object instead of working with response object we are going to work with appError
+    //or one of its derivatives
 	}
 }

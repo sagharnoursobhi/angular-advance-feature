@@ -1,0 +1,14 @@
+<h1 class="mt-5 mb-3 text-capitalize">my followers</h1>
+<ul class="list-group mt-3 mb-3">
+  <li class="list-group-item d-flex justify-content-start align-items-center" *ngFor="let follower of followers">
+    <div class="d-flex">
+      <div class="flex-shrink-0">
+          <img [src]="follower.avatar" class="rounded-circle" alt="Sample Image">
+      </div>
+      <div class="flex-grow-1 ms-3">
+          <h5>{{ follower.username }}</h5>
+          <a href="">{{ follower.link }}</a>
+      </div>
+    </div>
+  </li>
+</ul>
